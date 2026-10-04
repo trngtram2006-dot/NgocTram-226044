@@ -1,84 +1,60 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <math.h>
+#include "lib.h"
+
 void main()
 {
+    for (int i = 1; i <= 100; i++)
+    {
+        if (kiem_tra_so_nguyen_to(i) == 1)
+        {
+            printf("%d la so nguyen to.\n", i);
+        }
+    }
 
-	//BTVN1: Tìm ước chung lớn nhất(GCD)
-	//	Nhập hai số nguyên dương A và B, sử dụng vòng lặp để tìm ƯCLN của hai số.
-	//	Không sử dụng hàm có sẵn.
-	
-	int a, b,du;
-	printf(" Nhap so A: ");
-	scanf("%d", &a);
-	printf(" Nhap so B: ");
-	scanf("%d", &b);
+    printf("\n");
 
-	while (b != 0)
-	{
-		du = a % b;
-		a = b;
-		b = du;
-	}
-	printf(" UCLN = %d.\n", a);
+    int ucln1=ham_UCLN(12, 20);
+    printf(" %d la UCLN.\n", ucln1);
+    int ucln2 = ham_UCLN(30, 45);
+    printf(" %d la UCLN.\n", ucln2);
 
-	// C2:
-	int a, b;
-	printf(" Nhap a = "); scanf("%d", &a);
-	printf(" Nhap b = "); scanf("%d", &b);
-	
-	int min = a > b ? b : a;
-	for (int i = min;i > 0;i--)
-	{
-		if ((a % i == 0 && b % i == 0) || i == 1)
-		{
-			printf(" UCLN = %d", min);
-			break;
-		}
-	}
-	
+    printf("\n");
+
+    int bcln1 = ham_BCNN(3, 4);
+    printf(" %d la BCNN.\n", bcln1);
+    int bcln2 = ham_BCNN(30, 45);
+    printf(" %d la BCNN.\n", bcln2);
+
+   
+        int arr[10] = { 3, 2, 5, 6, 5, 6, 2, 1, 12, 32 };
+
+        int GTLN = arr[0];
+        int GTNN = arr[0];
+        int vi_tri_min = 0;
+        int vi_tri_max = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (GTLN < arr[i])
+            {
+                GTLN = arr[i];
+                vi_tri_max = i;
+            }
+
+            if (GTNN > arr[i])
+            {
+                GTNN = arr[i];
+                vi_tri_min = i;
+            }
+        }
+
+        printf("%d la GTLN, vi tri = %d.\n", GTLN, vi_tri_max);
+        printf("%d la GTNN, vi tri = %d.\n", GTNN, vi_tri_min);
 
 
-	//BTVN2: Trò chơi đoán số ⭐ 
-	//	Chương trình sinh ra một số bí mật trong khoảng 1–100.
-	//	Người dùng liên tục nhập số dự đoán cho đến khi đoán đúng.
-	//	Sau mỗi lần nhập : Nếu số nhập nhỏ hơn số bí mật 
-	//	→ thông báo "Lon hon" Nếu số nhập lớn hơn 
-	//	→ thông báo "Nho hon" Nếu đúng 
-	//	→ thông báo số lần đoán.
-
-	int nn, dd, solan = 0;
-
-	srand(time(NULL));
-	nn = rand() % 100 + 1;
-
-	printf("Tro choi doan so.\n");
-	printf("Nhap so ngau nhien tu 1 den 100.\n");
-
-	while (1)
-	{
-		printf("So ban chon: ");
-		scanf("%d", &dd);
-
-		solan++;
-
-		if (dd < nn)
-		{
-			printf("Lon hon\n");
-		}
-		else if (dd > nn)
-		{
-			printf("Nho hon\n");
-		}
-		else
-		{
-			printf("Doan trung roi nha!\n");
-			printf("Xin chuc mung ban!\n");
-			printf("Ban da nhap %d lan.\n", solan);
-			break;
-		}
-}
-
-return 0;
-
+        int length = sizeof(arr); // sizeof(arr[0]);
+        for (int j = 0;j < length;j++)
+        {
+            printf("j[%d]: %d\n", j,arr[j]);
+        }
 }
