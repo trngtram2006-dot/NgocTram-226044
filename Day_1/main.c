@@ -88,66 +88,114 @@ int linked_list_get_value(linked_list* ll, int index)
 
 void linked_list_remove_node(linked_list* ll, int index)
 {
-	if (index < 0 || index >= ll->size)
-	{
-		printf("Vi tri %d khong hop le (hop le: 0 den %d)\n", index, ll->size - 1);
-		return;
-	}
-
-	node* can_xoa;
+	node* temp = ll->root_node;
 	if (index == 0)
 	{
-		// xoa node dau: root_node tro sang node thu 2
-		can_xoa = ll->root_node;
-		ll->root_node = (node*)(can_xoa->next_node);
+		ll->root_node = temp->next_node;
+		free(temp);
 	}
 	else
 	{
-		// tim node dung truoc node can xoa (vi tri index - 1)
-		node* truoc = ll->root_node;
-		for (int i = 0; i < index - 1; i++)
+		node* pre_temp = ll->root_node;
+		for (int i = 0; i < index;i++)
 		{
-			truoc = (node*)(truoc->next_node);
+			pre_temp = temp;
+			temp = (node*)(temp->next_node);
 		}
-		can_xoa = (node*)(truoc->next_node);
-		truoc->next_node = can_xoa->next_node;   // noi node truoc voi node sau
+		pre_temp->next_node = (node*)(temp->next_node);
+		free(temp);
+		ll->size--;
 	}
-
-	free(can_xoa);       // giai phong bo nho
-	ll->size--;
 }
+
+//void linked_list_remove_node(linked_list* ll, int index)
+//{
+//	if (index < 0 || index >= ll->size)
+//	{
+//		printf("Vi tri %d khong hop le (hop le: 0 den %d)\n", index, ll->size - 1);
+//		return;
+//	}
+//
+//	node* can_xoa;
+//	if (index == 0)
+//	{
+//		// xoa node dau: root_node tro sang node thu 2
+//		can_xoa = ll->root_node;
+//		ll->root_node = (node*)(can_xoa->next_node);
+//	}
+//	else
+//	{
+//		// tim node dung truoc node can xoa (vi tri index - 1)
+//		node* truoc = ll->root_node;
+//		for (int i = 0; i < index - 1; i++)
+//		{
+//			truoc = (node*)(truoc->next_node);
+//		}
+//		can_xoa = (node*)(truoc->next_node);
+//		truoc->next_node = can_xoa->next_node;   // noi node truoc voi node sau
+//	}
+//
+//	free(can_xoa);       // giai phong bo nho
+//	ll->size--;
+//}
 
 void linked_list_insert_node(linked_list* ll, int index, int val)
 {
-	if (index < 0 || index > ll->size)
-	{
-		printf("Vi tri %d khong hop le (hop le: 0 den %d)\n", index, ll->size);
-		return;
-	}
-
 	node* n = malloc(sizeof(node));
-	if (n == NULL) return;
 	n->value = val;
+	n->next_node = NULL;
 
+	node* temp = ll->root_node;
 	if (index == 0)
 	{
-		// chen vao dau: node moi tro toi node dau cu
-		n->next_node = ll->root_node;
+		n->next_node = temp;
 		ll->root_node = n;
 	}
 	else
 	{
-		// tim node dung truoc vi tri can chen (vi tri index - 1)
-		node* truoc = ll->root_node;
-		for (int i = 0; i < index - 1; i++)
+		node* pre_temp = temp;
+		for (int i = 0;i < index;i++)
 		{
-			truoc = (node*)(truoc->next_node);
+			pre_temp = temp;
+			temp = (node*)(temp->next_node);
 		}
-		n->next_node = truoc->next_node;   // node moi tro toi node phia sau
-		truoc->next_node = n;              // node truoc tro toi node moi
+		pre_temp->next_node = n;
+		n->next_node = temp;
 	}
 	ll->size++;
 }
+
+//void linked_list_insert_node(linked_list* ll, int index, int val)
+//{
+//	if (index < 0 || index > ll->size)
+//	{
+//		printf("Vi tri %d khong hop le (hop le: 0 den %d)\n", index, ll->size);
+//		return;
+//	}
+//
+//	node* n = malloc(sizeof(node));
+//	if (n == NULL) return;
+//	n->value = val;
+//
+//	if (index == 0)
+//	{
+//		// chen vao dau: node moi tro toi node dau cu
+//		n->next_node = ll->root_node;
+//		ll->root_node = n;
+//	}
+//	else
+//	{
+//		// tim node dung truoc vi tri can chen (vi tri index - 1)
+//		node* truoc = ll->root_node;
+//		for (int i = 0; i < index - 1; i++)
+//		{
+//			truoc = (node*)(truoc->next_node);
+//		}
+//		n->next_node = truoc->next_node;   // node moi tro toi node phia sau
+//		truoc->next_node = n;              // node truoc tro toi node moi
+//	}
+//	ll->size++;
+//}
 
 void main()
 {
@@ -181,13 +229,20 @@ void main()
 	*/
 	//void linked_list_insert_node(linked_list * ll, int index, int val);
 
-	linked_list_insert_node(&l, 2, 99);       // chen 99 vao vi tri 2
-	printf("\n--- Sau khi them ---\n");
+	//linked_list_insert_node(&l, 2, 99);       // chen 99 vao vi tri 2
+	//printf("\n--- Sau khi them ---\n");
+	//linked_list_show_all_node(&l);
+
+	//linked_list_remove_node(&l, 3);           // xoa node o vi tri 3
+	//printf("\n--- Sau khi xoa ---\n");
+	//linked_list_show_all_node(&l);
+
+	//return 0;
+
+	linked_list_remove_node(&l, 2);
 	linked_list_show_all_node(&l);
 
-	linked_list_remove_node(&l, 3);           // xoa node o vi tri 3
-	printf("\n--- Sau khi xoa ---\n");
+	printf("\n");
+	linked_list_insert_node(&l, 3, 30);
 	linked_list_show_all_node(&l);
-
-	return 0;
 }
